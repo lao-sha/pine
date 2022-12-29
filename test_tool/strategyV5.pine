@@ -15,7 +15,7 @@ short=
 //BACKTESTING inputs --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ACT_BT              =                   input.bool(true,                             title="Backtest",                                                                                 group= "BACKTEST")
-testStartYear       =                   input.int(2018,                             title="start year",                                         minval = 1997, maxval = 3000,                                                   group= "BACKTEST") 
+testStartYear       =                   input.int(2010,                             title="start year",                                         minval = 1997, maxval = 3000,                                                   group= "BACKTEST") 
 testStartMonth      =                   input.int(01,                               title="start month",                                        minval = 1, maxval = 12,                                                        group= "BACKTEST")
 testStartDay        =                   input.int(01,                               title="start day",                                          minval = 1, maxval = 31,                                                        group= "BACKTEST")
 testPeriodStart     =                   timestamp(testStartYear,testStartMonth,testStartDay,0,0)
