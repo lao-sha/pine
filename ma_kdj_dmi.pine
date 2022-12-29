@@ -1,8 +1,8 @@
 // This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
-// © Btc_Gentleman
+// © lao_sha
 
 //@version=5
-strategy("ma_kdj_dmi金典组合", overlay=true,  pyramiding=1,initial_capital = 10000, default_qty_type= strategy.percent_of_equity, default_qty_value = 100, calc_on_order_fills=false, slippage=0,commission_type=strategy.commission.percent,commission_value=0.04)
+strategy("LaoSha_ma_kdj_dmi_strategy", overlay=true,  pyramiding=1,initial_capital = 10000, default_qty_type= strategy.percent_of_equity, default_qty_value = 100, calc_on_order_fills=false, slippage=0,commission_type=strategy.commission.percent,commission_value=0.04)
 ma_slow_length = input.int(4)
 ma_slow_source = input.source(close)
 ma_fast_length = input.int(21)
