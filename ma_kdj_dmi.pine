@@ -2,7 +2,7 @@
 // © lao_sha
 
 //@version=5
-strategy("LaoSha_ma_kdj_dmi_strategy", overlay=true,  pyramiding=1,initial_capital = 10000, default_qty_type= strategy.percent_of_equity, default_qty_value = 100, calc_on_order_fills=false, slippage=0,commission_type=strategy.commission.percent,commission_value=0.04)
+strategy("lao_sha_ma_kdj_dmi_strategy", overlay=true,  pyramiding=1,initial_capital = 10000, default_qty_type= strategy.percent_of_equity, default_qty_value = 100, calc_on_order_fills=false, slippage=0,commission_type=strategy.commission.percent,commission_value=0.04)
 ma_slow_length = input.int(4)
 ma_slow_source = input.source(close)
 ma_fast_length = input.int(21)
@@ -31,12 +31,12 @@ pK = bcwsma(RSV, isig, 1)
 pD = bcwsma(pK, isig, 1)
 pJ = 3 * pK - 2 * pD
 KDJ = math.avg(pD, pJ, pK)
-plot(pK, title='% K', color=color.new(color.orange, 0))
-plot(pD, title='% D', color=color.new(color.lime, 0))
-plot(pJ, title='% J', color=color.new(color.fuchsia, 0))
-plot(KDJ, title='KDJ', color=color.new(color.white, 0))
-plot(ma_slow)
-plot(ma_fast)
+// plot(pK, title='% K', color=color.new(color.orange, 0))
+// plot(pD, title='% D', color=color.new(color.lime, 0))
+// plot(pJ, title='% J', color=color.new(color.fuchsia, 0))
+// plot(KDJ, title='KDJ', color=color.new(color.white, 0))
+plot(ma_slow,color = color.new(color.lime,10),linewidth=2)
+plot(ma_fast,color = color.new(color.orange,10),linewidth=2)
 //===============================================================================================================================
 
 long=ma_slow>ma_fast and pJ<30 and diplus > diminus
