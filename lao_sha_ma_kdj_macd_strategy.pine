@@ -39,10 +39,12 @@ KDJ = math.avg(pD, pJ, pK)
 // plot(KDJ, title='KDJ', color=color.new(color.white, 0))
 plot(ma_slow,color = color.new(color.lime,10),linewidth=2)
 plot(ma_fast,color = color.new(color.orange,10),linewidth=2)
+pJlong = input.int(30)
+pJshort = input.int(70)
 //===============================================================================================================================
 
-long=ma_fast>ma_slow and pJ<30 and macdLine > signalLine
-short=ma_fast<ma_slow and pJ>70 and macdLine < signalLine
+long=ma_fast>ma_slow and pJ<pJlong and macdLine > signalLine
+short=ma_fast<ma_slow and pJ>pJshort and macdLine < signalLine
 //BACKTESTING inputs --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ACT_BT              =                   input.bool(true,                             title="Backtest",                                                                                 group= "BACKTEST")
