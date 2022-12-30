@@ -1,9 +1,5 @@
 //@version=5
 indicator("Lao_Sha_KDJ")
-diLength = input.int(15)
-adxSmoothing=input.int(20)
-[diplus,diminus,adx]=ta.dmi(diLength, adxSmoothing)
-//===============================================================================================================================
 ilong = input.int(9, title='period')
 isig = input.int(3, title='signal')
 bcwsma(s, l, m) =>
