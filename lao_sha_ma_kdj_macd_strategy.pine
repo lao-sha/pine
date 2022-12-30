@@ -5,15 +5,15 @@
 strategy("lao_sha_ma_kdj_macd_strategy", overlay=true,  pyramiding=1,initial_capital = 10000, default_qty_type= strategy.percent_of_equity, default_qty_value = 100, calc_on_order_fills=false, slippage=0,commission_type=strategy.commission.percent,commission_value=0.04)
 ma_fast_length = input.int(4)
 ma_fast_source = input.source(close)
-ma_slow_length = input.int(21)
+ma_slow_length = input.int(22)
 ma_slow_source = input.source(ohlc4)
 ma_slow=ta.ema(ma_slow_source,ma_slow_length)
 ma_fast=ta.ema(ma_fast_source,ma_fast_length)
 //===============================================================================================================================
 macdSource = input.source(close)
-macdFastlen = input.int(12)
-macdSlowlen = input.int(26)
-macdSiglen = input.int(9)
+macdFastlen = input.int(23)
+macdSlowlen = input.int(53)
+macdSiglen = input.int(6)
 [macdLine, signalLine, histLine]=ta.macd(macdSource, macdFastlen,macdSlowlen,macdSiglen)
 //===============================================================================================================================
 ilong = input.int(9, title='period')
@@ -46,7 +46,7 @@ short=ma_fast<ma_slow and pJ>70 and macdLine < signalLine
 //BACKTESTING inputs --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ACT_BT              =                   input.bool(true,                             title="Backtest",                                                                                 group= "BACKTEST")
-testStartYear       =                   input.int(2018,                             title="start year",                                         minval = 1997, maxval = 3000,                                                   group= "BACKTEST") 
+testStartYear       =                   input.int(2017,                             title="start year",                                         minval = 1997, maxval = 3000,                                                   group= "BACKTEST") 
 testStartMonth      =                   input.int(01,                               title="start month",                                        minval = 1, maxval = 12,                                                        group= "BACKTEST")
 testStartDay        =                   input.int(01,                               title="start day",                                          minval = 1, maxval = 31,                                                        group= "BACKTEST")
 testPeriodStart     =                   timestamp(testStartYear,testStartMonth,testStartDay,0,0)
