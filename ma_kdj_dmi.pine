@@ -3,10 +3,10 @@
 
 //@version=5
 strategy("lao_sha_ma_kdj_dmi_strategy", overlay=true,  pyramiding=1,initial_capital = 10000, default_qty_type= strategy.percent_of_equity, default_qty_value = 100, calc_on_order_fills=false, slippage=0,commission_type=strategy.commission.percent,commission_value=0.04)
-ma_slow_length = input.int(4)
-ma_slow_source = input.source(close)
-ma_fast_length = input.int(21)
-ma_fast_source = input.source(ohlc4)
+ma_fast_length = input.int(4)
+ma_fast_source = input.source(close)
+ma_slow_length = input.int(21)
+ma_slow_source = input.source(ohlc4)
 ma_slow=ta.ema(ma_slow_source,ma_slow_length)
 ma_fast=ta.ema(ma_fast_source,ma_fast_length)
 //===============================================================================================================================
@@ -39,8 +39,8 @@ plot(ma_slow,color = color.new(color.lime,10),linewidth=2)
 plot(ma_fast,color = color.new(color.orange,10),linewidth=2)
 //===============================================================================================================================
 
-long=ma_slow>ma_fast and pJ<30 and diplus > diminus
-short= ma_slow<ma_fast and pJ>70 and diplus < diminus
+long=ma_fast>ma_slow and pJ<30 and diplus > diminus
+short=ma_fast<ma_slow and pJ>70 and diplus < diminus
 //BACKTESTING inputs --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ACT_BT              =                   input.bool(true,                             title="Backtest",                                                                                 group= "BACKTEST")
