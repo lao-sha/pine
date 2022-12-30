@@ -1,5 +1,8 @@
+// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © lao_sha
+
 //@version=5
-indicator("Lao_Sha_KDJ")
+indicator("Lao_Sha_KDJ",overlay = false)
 ilong = input.int(9, title='period')
 isig = input.int(3, title='signal')
 bcwsma(s, l, m) =>
@@ -21,3 +24,6 @@ plot(pK, title='% K', color=color.new(color.orange, 0))
 plot(pD, title='% D', color=color.new(color.lime, 0))
 plot(pJ, title='% J', color=color.new(color.fuchsia, 0))
 plot(KDJ, title='KDJ', color=color.new(color.white, 0))
+h1=hline(30,color =color.new( color.red,50),linestyle = hline.style_dotted)
+h2=hline(70,color = color.new(color.blue,50),linestyle = hline.style_dotted)
+fill(h1,h2,color =color.new(color.green,70))
