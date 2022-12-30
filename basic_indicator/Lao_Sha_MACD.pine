@@ -1,0 +1,14 @@
+// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © lao_sha
+
+//@version=5
+indicator("Lao_Sha_dmi",overlay = false)
+macdSource = input.source(close)
+macdFastlen = input.int(23)
+macdSlowlen = input.int(53)
+macdSiglen = input.int(6)
+[macdLine, signalLine, histLine]=ta.macd(macdSource, macdFastlen,macdSlowlen,macdSiglen)
+plot(macdLine, title='macdLine', color=color.new(color.fuchsia, 0))
+plot(signalLine, title='signalLine', color=color.new(color.blue, 0))
+color colorDmi =diplus>diminus?color.new(color.green,90):color.new(color.red,90)
+fill(p1,p2,color=colorDmi)
