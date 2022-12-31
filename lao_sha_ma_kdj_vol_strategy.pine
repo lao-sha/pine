@@ -1,0 +1,74 @@
+// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © lao_sha
+
+//@version=5
+strategy("lao_sha_ma_kdj_vol_strategy", overlay=true,  pyramiding=1,initial_capital = 10000, default_qty_type= strategy.percent_of_equity, default_qty_value = 100, calc_on_order_fills=false, slippage=0,commission_type=strategy.commission.percent,commission_value=0.04)
+// MA ===============================================================================================================================
+ma_fast_length = input.int(5)
+ma_fast_source = input.source(high)
+ma_slow_length = input.int(24)
+ma_slow_source = input.source(close)
+ma_slow=ta.ema(ma_slow_source,ma_slow_length)
+ma_fast=ta.ema(ma_fast_source,ma_fast_length)
+// MACD ===============================================================================================================================
+sma_len = input.int(30)
+volume_f = input.float(0.3)
+Vol_Breakouts_Con  =volume > ta.sma(volume,sma_len)*volume_f
+// KDJ ===============================================================================================================================
+kdj_period = input.int(9, title='kdj_period')
+kdj_signal = input.int(4, title='kdj_signal')
+JtLong = input.int(36)
+JtShort = input.int(64)
+kdjbasic(ss, ll, mm) =>
+    kdj_basic = float(na)
+    s_s = ss
+    l_l = ll
+    m_m = mm
+    kdj_basic := (m_m * s_s + (l_l - m_m) * nz(kdj_basic[1])) / l_l
+    kdj_basic
+Cn = close
+Hn = ta.highest(high, kdj_period)
+Ln = ta.lowest(low, kdj_period)
+rsvt = 100 * ((Cn - Ln) / (Hn - Ln))
+Kt = kdjbasic(rsvt, kdj_signal, 1)
+Dt = kdjbasic(Kt, kdj_signal, 1)
+Jt = 3 * Kt - 2 * Dt
+KDJ = math.avg(Dt, Jt, Kt)
+plot(ma_slow,color = color.new(color.lime,10),linewidth=2)
+plot(ma_fast,color = color.new(color.orange,10),linewidth=2)
+
+// SIGNAL ===============================================================================================================================
+
+longCon=ma_fast>ma_slow and Jt<JtLong and Vol_Breakouts_Con
+shortCon=ma_fast<ma_slow and Jt>JtShort and Vol_Breakouts_Con
+
+//BacktestOrNo ----------------------------------------------------------------------------------------------------------------------
+
+BacktestOrNo =  input.bool(true, title="BacktestOrNo", group= "Backtest")
+periodStartYear       =     input.int(2000, title="start year",  minval = 1997, maxval = 3000,group= "Backtest") 
+periodStartMonth      =     input.int(02,   title="start month",    minval = 1, maxval = 12,   group= "Backtest")
+periodStartDay        =     input.int(03,  title="start day", minval = 1, maxval = 31,   group= "Backtest")
+periodPeriodStart     =     timestamp(periodStartYear,periodStartMonth,periodStartDay,0,0)
+periodStopYear        =     input.int(3000,  title="stop year", minval=1980, maxval = 3500, group= "Backtest")
+periodStopMonth       =     input.int(01, title="stop month",  minval=1, maxval=12,  group= "Backtest")
+periodStopDay         =     input.int(01, title="stop day", minval=1, maxval=31,group= "Backtest")
+PeriodStop      =           timestamp(periodStopYear, periodStopMonth, periodStopDay, 0, 0)
+Period          =           time >= periodPeriodStart and time <= PeriodStop ? true : false
+
+// BacktestOrNo ------------------------------------------------------------------------------------------------------------------
+
+//Signals===========================================================================================================================
+
+if longCon and BacktestOrNo and Period
+    strategy.entry("L", strategy.long)
+    
+if shortCon and BacktestOrNo and Period
+    strategy.entry("S", strategy.short)
+    
+percent(index) =>
+    strategy.position_size != 0 ? math.round(index / 100 * strategy.position_avg_price / syminfo.mintick) : float(na)
+sl=input.float(title=" stop_loss", defval=6, minval=0.01)
+loss_some = percent(sl)
+qtyPercent=input.int(title=" qty_percent", defval=100, minval=1)
+take_profit=input.float(title=" TP", defval=24, minval=0.02)
+strategy.exit("tp", qty_percent = qtyPercent, profit = percent(take_profit), loss = loss_some)
