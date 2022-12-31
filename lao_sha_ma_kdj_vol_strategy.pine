@@ -45,7 +45,7 @@ shortCon=ma_fast<ma_slow and Jt>JtShort and Vol_Breakouts_Con
 //BacktestOrNo ----------------------------------------------------------------------------------------------------------------------
 
 BacktestOrNo =  input.bool(true, title="BacktestOrNo", group= "Backtest")
-periodStartYear       =     input.int(2000, title="start year",  minval = 1997, maxval = 3000,group= "Backtest") 
+periodStartYear       =     input.int(2018, title="start year",  minval = 1997, maxval = 3000,group= "Backtest") 
 periodStartMonth      =     input.int(02,   title="start month",    minval = 1, maxval = 12,   group= "Backtest")
 periodStartDay        =     input.int(03,  title="start day", minval = 1, maxval = 31,   group= "Backtest")
 periodPeriodStart     =     timestamp(periodStartYear,periodStartMonth,periodStartDay,0,0)
