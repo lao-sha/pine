@@ -19,19 +19,19 @@ kdj_period = input.int(9, title='kdj_period')
 kdj_signal = input.int(4, title='kdj_signal')
 JtLong = input.int(36)
 JtShort = input.int(64)
-kdjbasic(ss, ll, mm) =>
-    kdj_basic = float(na)
+kdjbasic( mm, ll, ss) =>
+    m_m = mm
     s_s = ss
     l_l = ll
-    m_m = mm
+    float kdj_basic = na
     kdj_basic := (m_m * s_s + (l_l - m_m) * nz(kdj_basic[1])) / l_l
     kdj_basic
 Cn = close
 Hn = ta.highest(high, kdj_period)
 Ln = ta.lowest(low, kdj_period)
 rsvt = 100 * ((Cn - Ln) / (Hn - Ln))
-Kt = kdjbasic(rsvt, kdj_signal, 1)
-Dt = kdjbasic(Kt, kdj_signal, 1)
+Kt = kdjbasic(1, kdj_signal, rsvt)
+Dt = kdjbasic(1, kdj_signal, Kt)
 Jt = 3 * Kt - 2 * Dt
 KDJ = math.avg(Dt, Jt, Kt)
 plot(ma_slow,color = color.new(color.lime,10),linewidth=2)
@@ -60,10 +60,10 @@ Period          =           time >= periodPeriodStart and time <= PeriodStop ? t
 //Signals===========================================================================================================================
 
 if longCon and BacktestOrNo and Period
-    strategy.entry("L", strategy.long)
+    strategy.entry("long", strategy.long)
     
 if shortCon and BacktestOrNo and Period
-    strategy.entry("S", strategy.short)
+    strategy.entry("short", strategy.short)
     
 percent(index) =>
     strategy.position_size != 0 ? math.round(index / 100 * strategy.position_avg_price / syminfo.mintick) : float(na)
